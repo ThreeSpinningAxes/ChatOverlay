@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron Desktop App</title>
+    <style>
+        /* Basic styling for custom window buttons */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .title-bar {
+            background-color: #282c34;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 30px;
+            padding: 0 10px;
+            user-select: none;
+            -webkit-app-region: drag;  /* Allow dragging the window */
+        }
+        .window-controls {
+            display: flex;
+            -webkit-app-region: no-drag;  /* Exclude controls from draggable area */
+        }
+        .window-controls button {
+            background-color: #3b3f45;
+            border: none;
+            color: white;
+            width: 30px;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            outline: none;
+        }
+        .window-controls button:hover {
+            background-color: #50575f;
+        }
+        .window-controls button.close:hover {
+            background-color: #e81123;
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Title Bar with Window Controls -->
+    <div class="title-bar">
+        <span>My Desktop App</span>
+        <div class="window-controls">
+            <button id="minimize-btn">_</button>
+            <button id="maximize-btn">[]</button>
+            <button class="close" id="close-btn">X</button>
+        </div>
+    </div>
+
+    <div id="content">
+        <h1>Welcome to your Electron Desktop App!</h1>
+        <p>Here you can put your app's content.</p>
+    </div>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+
+        // Minimize window
+        document.getElementById('minimize-btn').addEventListener('click', () => {
+            ipcRenderer.send('minimize-window');
+        });
+
+        // Maximize or unmaximize window
+        document.getElementById('maximize-btn').addEventListener('click', () => {
+            ipcRenderer.send('maximize-window');
+        });
+
+        // Close window
+        document.getElementById('close-btn').addEventListener('click', () => {
+            ipcRenderer.send('close-window');
+        });
+    </script>
+</body>
+</html>
